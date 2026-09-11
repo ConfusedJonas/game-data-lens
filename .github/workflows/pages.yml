@@ -21,7 +21,7 @@ jobs:
       - name: Validate JavaScript
         run: |
           node --check dist/app.js
-          node --check dist/artwork.js
+          node tests/check-artwork.cjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
