@@ -8,6 +8,8 @@ App icons are resolved automatically from [Supercell's official fan kit](https:/
 - [Boom Beach](https://fankit.supercell.com/boombeach)
 - [Clash of Clans](https://fankit.supercell.com/clashofclans)
 - [Clash Royale](https://fankit.supercell.com/clashroyale)
+- [Brawl Stars](https://fankit.supercell.com/brawlstars)
+- [mo.co](https://fankit.supercell.com/moco)
 
 The catalog supplies the app-icon URLs; image URLs are not hardcoded. Only raster images from `https://media.ffycdn.net/eu/supercell/` are accepted, at a requested width of 256px. Cards are matched by their fixed official fan-kit links. Remote HTML content is never executed or inserted. If the public catalog changes, icons fall back to local letter badges.
 

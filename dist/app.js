@@ -8,13 +8,16 @@
     "boom-beach": { aliases: ["boombeach"] },
     "clash-of-clans": { aliases: ["clashofclans", "clashclans", "coc"] },
     "clash-royale": { aliases: ["clashroyale", "clashroyal"] },
-    "hay-day": { aliases: ["hayday"] }
+    "hay-day": { aliases: ["hayday"] },
+    "brawl-stars": { aliases: ["brawlstars", "brawlstar"] },
+    "mo-co": { aliases: ["moco"] }
   };
 
   const state = { report: null, fileName: "", activeGameId: "", revealSensitive: false };
   const artwork = new Map();
   let artworkFrame = null;
   let artworkTimer = null;
+  let statsResizeObserver = null;
   const unofficialNotice = `<p class="legal-notice">Game Data Lens is unofficial and is not endorsed by Supercell. <a href="https://supercell.com/en/fan-content-policy/" target="_blank" rel="noopener noreferrer">Supercell’s Fan Content Policy</a>. Game names and artwork belong to their respective owners. <a href="./privacy.html" target="_blank" rel="noopener noreferrer">Privacy & artwork</a></p>`;
   const compactText = (value = "") => value.replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim();
   const escapeHtml = (value = "") => String(value)
@@ -81,7 +84,7 @@
     if (message?.type === "artwork" && Object.hasOwn(GAME_THEMES, message.key) &&
         message.blob instanceof Blob && message.blob.size <= 2000000 &&
         ["image/png", "image/jpeg", "image/webp"].includes(message.blob.type) &&
-        typeof message.source === "string" && /^https:\/\/fankit\.supercell\.com\/(hayday|boombeach|clashofclans|clashroyale)$/.test(message.source)) {
+        typeof message.source === "string" && /^https:\/\/fankit\.supercell\.com\/(hayday|boombeach|clashofclans|clashroyale|brawlstars|moco)$/.test(message.source)) {
       const previous = artwork.get(message.key);
       if (previous) URL.revokeObjectURL(previous.url);
       artwork.set(message.key, { url: URL.createObjectURL(message.blob), source: message.source });
@@ -443,6 +446,35 @@
     return `<section class="stats-grid" aria-label="Game summary">${playtimeCard}${estimateCard}<div class="stat-card"><span class="stat-label">Lifetime sessions</span><strong class="stat-value">${formatCount(game.lifetimeSessions)}</strong><span class="stat-meta">Reported by Supercell</span></div>${spendCard}<div class="stat-card"><span class="stat-label">Purchase outcomes</span><strong class="stat-value">${formatCount(game.purchases.rows.length)}</strong><span class="stat-meta">${spending.refundedCount ? `${spending.refundedCount} refunded · ` : ""}${spending.excludedCount} excluded from spend</span></div></section>`;
   }
 
+  function fitStatNumbers() {
+    // Preserve full values: shrink only when needed, never wrap or truncate digits.
+    const groups = [...app.querySelectorAll('.stat-value:not(.stat-value-small):not(.stat-money)')].map(value => [value]);
+    app.querySelectorAll('.stat-money').forEach(money => groups.push([...money.querySelectorAll('.money-amount')]));
+    groups.flat().forEach(value => value.style.removeProperty('font-size'));
+    groups.forEach(values => {
+      const scale = Math.min(1, ...values.map(value => value.clientWidth > 0 ? value.clientWidth / Math.max(value.clientWidth, value.scrollWidth) : 1));
+      if (scale < 1) values.forEach(value => {
+        value.style.fontSize = `${Math.floor(parseFloat(getComputedStyle(value).fontSize) * scale * .98 * 100) / 100}px`;
+      });
+    });
+  }
+
+  function observeStatSizes() {
+    statsResizeObserver?.disconnect();
+    fitStatNumbers();
+    if (typeof ResizeObserver !== 'function') return;
+    let previousWidth = '';
+    statsResizeObserver = new ResizeObserver(() => {
+      const card = app.querySelector('.stat-card');
+      const signature = `${card?.clientWidth}:${getComputedStyle(document.documentElement).fontSize}`;
+      if (signature === previousWidth) return;
+      previousWidth = signature;
+      fitStatNumbers();
+    });
+    const grid = app.querySelector('.stats-grid');
+    if (grid) statsResizeObserver.observe(grid);
+  }
+
   function renderWarnings(game) {
     const warnings = [];
     if (game.sessions.invalidCount) warnings.push(`${game.sessions.invalidCount} session ${game.sessions.invalidCount === 1 ? "duration was" : "durations were"} invalid and excluded from recorded playtime.`);
@@ -484,7 +516,7 @@
     app.innerHTML = `<div class="dashboard-shell">
       <header class="topbar"><a class="mini-brand" href="#" data-start-over aria-label="Return to file selection"><span class="lens-mark" aria-hidden="true">◉</span><span>Game Data Lens</span></a><div class="topbar-actions"><span class="file-name" title="${escapeHtml(state.fileName)}">${escapeHtml(state.fileName)}</span><button type="button" class="quiet-button" id="privacy-toggle" aria-pressed="${state.revealSensitive}">${state.revealSensitive ? "Hide sensitive data" : "Reveal sensitive data"}</button><label class="quiet-button file-change" for="file-input-dashboard">Change file</label><input id="file-input-dashboard" class="visually-hidden" type="file" accept=".html,.htm,text/html"></div></header>
       ${renderGameNavigation(report, game)}
-      <section class="game-hero"><div class="hero-icon">${gameIcon(game, true)}</div><div class="hero-copy"><span class="hero-kicker">${escapeHtml(game.name.toUpperCase())} ARCHIVE</span><h1>${escapeHtml(game.playerName)}</h1><p>${escapeHtml(report.createdAt)} · Parsed locally from your Supercell export</p></div><div class="hero-emblem" aria-hidden="true">${game.themeKey === "generic" ? "DATA" : game.name.split(" ").map((word) => word[0]).join("")}</div></section>
+      <section class="game-hero"><div class="hero-icon">${gameIcon(game, true)}</div><div class="hero-copy"><span class="hero-kicker">${escapeHtml(game.name.toUpperCase())} ARCHIVE</span><h1>${escapeHtml(game.playerName)}</h1><p>${escapeHtml(report.createdAt)}</p></div><div class="hero-emblem" aria-hidden="true">${game.themeKey === "generic" ? "DATA" : game.name.split(" ").map((word) => word[0]).join("")}</div></section>
       ${renderOverviewHighlights(game)}
       ${renderStats(game)}${renderWarnings(game)}${renderAccountPanel(report)}
       <div class="content-grid">${renderSection(game.overview)}${genericSections.map(renderSection).join("")}</div>
@@ -493,6 +525,7 @@
       ${unofficialNotice}<p class="artwork-credits"></p>
     </div>`;
     bindDashboardEvents();
+    observeStatSizes();
     updateArtworkUi();
   }
 
@@ -542,6 +575,7 @@
   }
 
   function showUpload(message = "") {
+    statsResizeObserver?.disconnect();
     state.report = null;
     state.fileName = "";
     state.activeGameId = "";
@@ -591,6 +625,7 @@
     }
   });
 
+  window.addEventListener('resize', fitStatNumbers);
   bindPicker(document.querySelector("#file-input"), document.querySelector("#file-status"));
   loadArtwork();
 })();

@@ -2,12 +2,14 @@
   "use strict";
   // Isolated by sandbox="allow-scripts" (no allow-same-origin). This frame cannot
   // read the parent document or receive imported data. Always request the same
-  // public catalog and all four icons, regardless of a visitor's exported games.
+  // public catalog and all supported icons, regardless of a visitor's exported games.
   const sources = new Map([
     ["https://fankit.supercell.com/hayday", "hay-day"],
     ["https://fankit.supercell.com/boombeach", "boom-beach"],
     ["https://fankit.supercell.com/clashofclans", "clash-of-clans"],
-    ["https://fankit.supercell.com/clashroyale", "clash-royale"]
+    ["https://fankit.supercell.com/clashroyale", "clash-royale"],
+    ["https://fankit.supercell.com/brawlstars", "brawl-stars"],
+    ["https://fankit.supercell.com/moco", "mo-co"]
   ]);
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15000);
