@@ -28,7 +28,7 @@ Exports may contain only part of your history. Expand the session and purchase p
 
 IP addresses and connected-account identifiers are masked until you choose to reveal them. Game icons load separately from the official fan kit, without access to your export. [Privacy & artwork details](https://confusedjonas.github.io/game-data-lens/privacy.html).
 
-## Download instead
+## Download instead?
 
 **[Download ZIP](https://github.com/ConfusedJonas/game-data-lens/archive/refs/heads/main.zip)** → extract → open `game-data-lens-main/dist/index.html` in your browser.
 
