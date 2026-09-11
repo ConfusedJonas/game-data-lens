@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'none'; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A private, local viewer for Supercell data exports.">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#09111f">
+    <title>Game Data Lens — Local game data viewer</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2309111f'/%3E%3Cpath d='M15 19h34v9H15zm0 17h34v9H15z' fill='%23f6c84a'/%3E%3Ccircle cx='22' cy='23.5' r='3' fill='%2309111f'/%3E%3Ccircle cx='42' cy='40.5' r='3' fill='%2309111f'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main id="app">
+      <section class="upload-screen" aria-labelledby="upload-title">
+        <div class="brand-lockup" aria-label="Game Data Lens">
+          <span class="lens-mark" aria-hidden="true">◉</span>
+          <span>Game Data Lens</span>
+        </div>
+
+        <div class="upload-card">
+          <div class="eyebrow"><span></span> LOCAL DATA VIEWER</div>
+          <h1 id="upload-title">Your game history, clearly.</h1>
+          <p class="upload-copy">Open the HTML summary from your Supercell data request to explore playtime, purchases, and progress. Your selected export is processed locally and is not uploaded. Refreshing clears it.</p>
+
+          <div class="game-strip" aria-label="Supported game themes">
+            <figure><span class="game-image" data-game-icon="hay-day" aria-hidden="true"><span class="generic-game-icon">HD</span></span><figcaption>Hay Day</figcaption></figure>
+            <figure><span class="game-image" data-game-icon="boom-beach" aria-hidden="true"><span class="generic-game-icon">BB</span></span><figcaption>Boom Beach</figcaption></figure>
+            <figure><span class="game-image" data-game-icon="clash-of-clans" aria-hidden="true"><span class="generic-game-icon">CC</span></span><figcaption>Clash of Clans</figcaption></figure>
+            <figure><span class="game-image" data-game-icon="clash-royale" aria-hidden="true"><span class="generic-game-icon">CR</span></span><figcaption>Clash Royale</figcaption></figure>
+          </div>
+
+          <label class="file-button" for="file-input">
+            <span class="file-button-icon" aria-hidden="true">&#8593;</span>
+            <span><strong>Choose Supercell HTML</strong><small>.html or .htm</small></span>
+          </label>
+          <input id="file-input" type="file" accept=".html,.htm,text/html">
+          <p id="file-status" class="file-status" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="privacy-note">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2 4.5 5v5.8c0 4.7 3 8.9 7.5 10.2 4.5-1.3 7.5-5.5 7.5-10.2V5L12 2Zm0 4.2 4.2 1.7v2.9c0 3-1.6 5.7-4.2 6.9-2.6-1.2-4.2-3.9-4.2-6.9V7.9L12 6.2Z"/></svg>
+          <span><strong>Your export stays on your device.</strong> No accounts, analytics, or saved reports.</span>
+        </div>
+        <p class="legal-notice">Game Data Lens is unofficial and is not endorsed by Supercell. <a href="https://supercell.com/en/fan-content-policy/" target="_blank" rel="noopener noreferrer">Supercell’s Fan Content Policy</a>. Game names and artwork belong to their respective owners. <a href="./privacy.html" target="_blank" rel="noopener noreferrer">Privacy & artwork</a></p>
+        <p class="artwork-credits"></p>
+      </section>
+    </main>
+    <script src="./app.js" defer></script>
+  </body>
+</html>

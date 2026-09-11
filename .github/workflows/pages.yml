@@ -1,0 +1,31 @@
+name: Publish public website (approval required)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    # Private review must never result in a publicly accessible deployment.
+    if: github.event.repository.private == false && vars.PUBLIC_SITE_APPROVED == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate JavaScript
+        run: |
+          node --check dist/app.js
+          node --check dist/artwork.js
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
