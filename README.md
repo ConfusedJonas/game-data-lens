@@ -36,9 +36,11 @@ Keep the `dist` files together. No installation or local server needed. Data vie
 
 ## Examples
 
-![Clash of Clans dashboard](docs/images/clash-of-clans.png)
+Screenshots use fictional demo data.
 
-![Hay Day dashboard](docs/images/hay-day.png)
+![Clash of Clans dashboard with demo data](docs/images/clash-of-clans.png)
+
+![Hay Day dashboard with demo data](docs/images/hay-day.png)
 
 ## Disclaimer and license
 
