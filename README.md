@@ -6,6 +6,10 @@ A visual representation of your Supercell data.
 
 Choose your Supercell HTML export to view playtime, purchases, and account statistics. No installation or account needed. **Your file stays in your browser and is never uploaded**, including when using the hosted website. Refreshing clears it.
 
+![Clash of Clans dashboard with demo data](docs/images/clash-of-clans.png)
+
+![Hay Day dashboard with demo data](docs/images/hay-day.png)
+
 ## Get your data
 
 Request your personal data through Supercell's official support pages:
@@ -33,14 +37,6 @@ IP addresses and connected-account identifiers are masked until you choose to re
 **[Download ZIP](https://github.com/ConfusedJonas/game-data-lens/archive/refs/heads/main.zip)** → extract → open `game-data-lens-main/dist/index.html` in your browser.
 
 Keep the `dist` files together. No installation or local server needed. Data viewing works offline; icons fall back to letter badges when unavailable.
-
-## Examples
-
-Screenshots use fictional demo data.
-
-![Clash of Clans dashboard with demo data](docs/images/clash-of-clans.png)
-
-![Hay Day dashboard with demo data](docs/images/hay-day.png)
 
 ## Disclaimer and license
 
