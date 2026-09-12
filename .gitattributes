@@ -3,5 +3,3 @@
 .gitattributes export-ignore
 .gitignore export-ignore
 .github export-ignore
-tests export-ignore
-start-local.cmd export-ignore

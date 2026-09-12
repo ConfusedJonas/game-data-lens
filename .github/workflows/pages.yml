@@ -21,7 +21,21 @@ jobs:
       - name: Validate JavaScript
         run: |
           node --check dist/app.js
-          node tests/check-artwork.cjs
+          node <<'NODE'
+          const assert = require('node:assert/strict');
+          const { readFileSync } = require('node:fs');
+          const { createHash } = require('node:crypto');
+          const { Script } = require('node:vm');
+          const html = readFileSync('dist/artwork.html', 'utf8').replace(/\r\n?/g, '\n');
+          const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
+          assert.equal(scripts.length, 1, 'Expected one self-contained artwork script');
+          const source = scripts[0][1];
+          new Script(source, { filename: 'artwork.html' });
+          const hash = createHash('sha256').update(source).digest('base64');
+          assert.ok(html.includes(`script-src 'sha256-${hash}';`), 'Artwork CSP hash must match');
+          assert.ok(!/unsafe-inline|unsafe-eval|<script\s+src=/i.test(html), 'Keep the loader hash-restricted');
+          console.log('PASS: artwork script syntax and restrictive CSP hash');
+          NODE
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:

@@ -1,12 +1,10 @@
-# Personal exports and screenshots must never be committed.
+# Keep private exports and working screenshots out of Git.
+# Only explicitly approved README images belong in docs/images/.
 *.htm
 *.html
 !dist/index.html
 !dist/artwork.html
 !dist/privacy.html
-!tests/one-game.html
-!tests/three-games.html
-!tests/malicious.html
 *Summary*Your*Data*
 exports/
 screenshots/

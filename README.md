@@ -34,6 +34,12 @@ IP addresses and connected-account identifiers are masked until you choose to re
 
 Keep the `dist` files together. No installation or local server needed. Data viewing works offline; icons fall back to letter badges when unavailable.
 
+## Examples
+
+![Clash of Clans dashboard](docs/images/clash-of-clans.png)
+
+![Hay Day dashboard](docs/images/hay-day.png)
+
 ## Disclaimer and license
 
 Game Data Lens is unofficial and is not endorsed by Supercell. See [Supercell's Fan Content Policy](https://supercell.com/en/fan-content-policy/).

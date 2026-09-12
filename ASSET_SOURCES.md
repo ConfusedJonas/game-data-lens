@@ -1,6 +1,6 @@
 # Artwork sources
 
-No game artwork is bundled. Local fallback badges consist only of letters.
+No standalone game artwork is bundled with the app. Local fallback badges consist only of letters. The README includes owner-supplied screenshots of the app displaying official game icons; those images retain the underlying artwork's third-party rights.
 
 App icons are resolved automatically from [Supercell's official fan kit](https://fankit.supercell.com/), using its public catalog at `https://fankit.supercell.com/api/hub/grid/62`:
 
